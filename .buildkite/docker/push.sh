@@ -2,4 +2,4 @@
 
 set -euxo pipefail
 
-docker push "tylersmalley/kibana-ci-base"
+docker push "gcr.io/elastic-kibana-184716/buildkite/base"
