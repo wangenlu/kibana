@@ -1,0 +1,32 @@
+steps:
+  - label: ":docker:"
+    agents:
+      docker: "true"
+    plugins:
+      - docker-login#v2.0.1:
+          username: tylersmalley
+      - docker-compose#v3.7.0:
+          build: kibana
+          image-repository: "tylersmalley/kibana-ci"
+
+  - wait
+
+  - label: ":node: Units"
+    command: "yarn jest --config src/core/jest.config.js --runInBand"
+    agents:
+      docker: "true"
+    plugins:
+      - docker-login#v2.0.1:
+          username: tylersmalley
+      - docker-compose#v3.7.0:
+          run: kibana
+
+  - label: ":node: Units"
+    command: "yarn jest --config x-pack/plugins/event_log/jest.config.js --runInBand"
+    agents:
+      docker: "true"
+    plugins:
+      - docker-login#v2.0.1:
+          username: tylersmalley
+      - docker-compose#v3.7.0:
+          run: kibana
