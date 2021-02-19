@@ -1,4 +1,4 @@
-FROM tylersmalley/kibana-ci-base:latest
+FROM gcr.io/elastic-kibana-184716/buildkite/base
 
 WORKDIR /kibana
 
