@@ -7,4 +7,4 @@ set -euxo pipefail
 export DOCKER_BUILDKIT=1
 
 # Containers used by Bazel CI
-docker build -f Dockerfile --target base -t "gcr.io/elastic-kibana-184716/buildkite/base" .
+docker build -f Dockerfile --target base -t "tylersmalley/kibana-ci-base" .

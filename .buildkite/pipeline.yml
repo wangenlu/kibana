@@ -1,9 +1,11 @@
 steps:
   - label: ":docker:"
     plugins:
+      - docker-login#v2.0.1:
+          username: tylersmalley
       - docker-compose#v3.7.0:
           build: kibana
-          image-repository: "gcr.io/elastic-kibana-184716/buildkite/base"
+          image-repository: "tylersmalley/kibana-ci"
 
   - wait
 

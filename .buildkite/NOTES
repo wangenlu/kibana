@@ -1,4 +1,4 @@
-kubectl create secret generic buildkite-agent --from-literal=token=SECRET
+kubectl create secret generic buildkite-agent --from-literal=token=YOUR_BUILKITE_TOKEN
 
 kubectl apply -f .buildkite/deployment.yml
 kubectl scale --replicas=5 deployment buildkite-agent
@@ -19,3 +19,8 @@ kubectl patch serviceaccount default \
 
 kubectl get serviceaccount default -o yaml
 
+helm install bk --namespace default buildkite/agent --set agent.token="YOUR_BUILKITE_TOKEN" --set registryCreds.gcrServiceAccountKey="$(cat ~/gcr_service_account.json | base64)" --set agent.tags="docker=true"
+
+kubectl --namespace=default get pods -l "app=agent,release=bk"
+helm upgrade {{ template "fullname" . }} builkite/agent \
+      --set agent.token="YOUR_BUILKITE_TOKEN"
