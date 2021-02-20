@@ -1,7 +1,5 @@
 steps:
   - label: ":docker:"
-    agents:
-      docker: "true"
     plugins:
       - docker-compose#v3.7.0:
           build: kibana

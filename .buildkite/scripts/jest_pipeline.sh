@@ -13,8 +13,6 @@ find packages -name jest.config.js | while read file; do
 cat << EOF
 - label: ":jest:"
   command: "node --expose-gc ./node_modules/.bin/jest --logHeapUsage --runInBand --config $file"
-  agents:
-    docker: "true"
   plugins:
   - docker-compose#v3.7.0:
       run: kibana
