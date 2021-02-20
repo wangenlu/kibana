@@ -33,6 +33,12 @@ spec:
               key: token
         - name: BUILDKITE_AGENT_TAGS
           value: "docker=true"
+        - name: DOCKER_BUILDKIT
+          value: "1"
+        - name: COMPOSE_DOCKER_CLI_BUILD
+          value: "1"
+        - name: BUILDKIT_PROGRESS
+          value: "plain"
         volumeMounts:
         - name: docker-socket
           mountPath: /var/run/docker.sock

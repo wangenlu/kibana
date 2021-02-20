@@ -1,0 +1,21 @@
+kubectl create secret generic buildkite-agent --from-literal=token=SECRET
+
+kubectl apply -f .buildkite/deployment.yml
+kubectl scale --replicas=5 deployment buildkite-agent
+
+DOCKER_BUILDKIT=1 docker build -t kibana-ci .
+docker run -it kibana-ci sh
+
+  
+kubectl create secret docker-registry gcr-json-key \
+--docker-server=gcr.io \
+--docker-username=_json_key \
+--docker-password="$(cat ~/json-key-file.json)" \
+--docker-email=tyler.smalley@elastic.co
+
+kubectl patch serviceaccount default \
+-p '{"imagePullSecrets": [{"name": "gcr-json-key"}]}'
+
+
+kubectl get serviceaccount default -o yaml
+
