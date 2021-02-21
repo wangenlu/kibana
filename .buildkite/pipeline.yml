@@ -6,6 +6,7 @@ steps:
       - docker-compose#v3.7.0:
           build: kibana
           image-repository: "tylersmalley/kibana-ci"
+          push-retries: 5
 
   - wait
 
