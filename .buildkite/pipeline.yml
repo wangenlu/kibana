@@ -7,8 +7,6 @@ steps:
           build: kibana
           image-repository: "tylersmalley/kibana-ci"
           push-retries: 5
-    artifact_paths:
-      - "Dockerfile"
 
   - wait
 
