@@ -16,5 +16,6 @@ cat << EOF
   plugins:
   - docker-compose#v3.7.0:
       run: kibana
+  - 'uber-workflow/run-without-clone':
 EOF
 done
