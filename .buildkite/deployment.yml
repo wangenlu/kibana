@@ -18,10 +18,10 @@ spec:
         resources:
           requests:
             cpu: "1"
-            memory: "2Gi"
+            memory: "4Gi"
           limits:
             cpu: "1"
-            memory: "2Gi"
+            memory: "4Gi"
         imagePullPolicy: Always
         securityContext:
           privileged: true
@@ -39,6 +39,12 @@ spec:
           value: "1"
         - name: BUILDKIT_PROGRESS
           value: "plain"
+        - name: BUILDKITE_GIT_CLONE_FLAGS
+          value: --single-branch --branch=$BUILDKITE_BRANCH --depth=1
+        - name: BUILDKITE_PLUGIN_DOCKER_COMPOSE_PULL_RETRIES
+          value: 5
+        - name: BUILDKITE_PLUGIN_DOCKER_COMPOSE_PUSH_RETRIES
+          value: 5
         volumeMounts:
         - name: docker-socket
           mountPath: /var/run/docker.sock
