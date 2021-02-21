@@ -11,12 +11,11 @@ echo "steps:"
 # TODO: add x-pack src
 find packages -name jest.config.js | while read file; do
 cat << EOF
-- label: ":jest:"
-  command: "node --expose-gc ./node_modules/.bin/jest --logHeapUsage --runInBand --config $file"
-  plugins:
-  - docker-compose#v3.7.0:
-      run: kibana
-      pull-retries: 5
-  - 'uber-workflow/run-without-clone':
+  - label: ":jest:"
+      command: "node --expose-gc ./node_modules/.bin/jest --logHeapUsage --runInBand --config $file"
+    plugins:
+      - docker-compose#v3.7.0:
+          run: kibana
+          pull-retries: 5
 EOF
 done
