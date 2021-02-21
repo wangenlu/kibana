@@ -12,10 +12,6 @@ echo "steps:"
 find packages -name jest.config.js | while read file; do
 cat << EOF
   - label: ":jest:"
-      command: "node --expose-gc ./node_modules/.bin/jest --logHeapUsage --runInBand --config $file"
-    plugins:
-      - docker-compose#v3.7.0:
-          run: kibana
-          pull-retries: 5
+      command: "buildkite-agent artifact download Dockerfile . && docker run -it "tylersmalley/kibana-ci:kibana-kibana-build-$BUILDKITE_BUILD_NUMBER" node --expose-gc ./node_modules/.bin/jest --logHeapUsage --runInBand --config $file"
 EOF
 done
