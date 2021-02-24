@@ -8,9 +8,9 @@
 
 import { resolve } from 'path';
 import { prok } from './process';
-import { run, createFlagError } from '@kbn/dev-utils';
+import { run, createFlagError, createFailError } from '@kbn/dev-utils';
 import { pathExists } from './team_assignment/enumeration_helpers';
-import { id, reThrow } from './utils';
+import { id } from './utils';
 
 const ROOT = resolve(__dirname, '../../../..');
 const flags = {
@@ -37,7 +37,9 @@ export function runCoverageIngestionCli() {
       const vcsInfoFilePath = resolveRoot(flags.vcsInfoPath);
       const { teamAssignmentsPath } = flags;
 
-      pathExists(teamAssignmentsPath).fold(reThrow, id);
+      pathExists(teamAssignmentsPath).fold(() => {
+        throw createFailError(errMsg(teamAssignmentsPath));
+      }, id);
 
       prok({ jsonSummaryPath, vcsInfoFilePath, teamAssignmentsPath }, log);
     },
@@ -56,4 +58,13 @@ See 'ingest_code_coverage_readme.md'
       flags,
     }
   );
+}
+
+function errMsg(x) {
+  return `
+  !!! [${x}] is not found!
+  !!! Maybe you should "Generate the team assignments", like this:
+
+node scripts/generate_team_assignments.js --verbose --src .github/CODEOWNERS --dest src/dev/code_coverage/ingest_coverage/team_assignment/team_assignments.txt
+`;
 }

@@ -16,10 +16,7 @@ export const pathExists = (x) => tryCatch(() => statSync(x)).fold(left, right);
 export const isDir = (x) => statSync(x).isDirectory();
 export const prokGlob = (x) => glob.sync(x, { nonull: true });
 export const trim = (ROOT) => (x) => x.replace(`${ROOT}/`, '');
-export const isFileAllowed = (x) => {
-  const isJsOrTsOrTsxOrJsx = /.(j|t)(s|sx)$/gm;
-  return isJsOrTsOrTsxOrJsx.test(x);
-};
+export const isFileAllowed = (x) => /.(j|t)(s|sx)$/gm.test(x);
 export const isRejectedDir = (x) =>
   /node_modules|__tests__|__fixture__|__fixtures__|build\//gm.test(x);
 const isGlobFound = (x) => (xs) => (x === xs[0] ? false : true);
@@ -31,5 +28,4 @@ export const tryPath = (x) => {
 
   if (!isAGlob) return pathExists(x).isRight() ? right(x) : left(x);
 };
-export const dropEmpty = (x) => x.length > 0;
 export const notFound = (log) => (err) => log.error(`\n!!! Not Found: \n${err}`);

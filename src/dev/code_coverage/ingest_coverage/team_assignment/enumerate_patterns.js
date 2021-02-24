@@ -16,7 +16,6 @@ import {
   isFileAllowed,
   isDir,
   tryPath,
-  dropEmpty,
   notFound,
 } from './enumeration_helpers';
 import { stripLeading } from '../transforms';
@@ -39,8 +38,13 @@ export const enumeratePatterns = (rootPath) => (log) => (patterns) => {
 
   function pathExists(owner) {
     const creeper = (x) => creepFsSync(x, [], rootPath, owner);
+    const nonEmptyReducer = (acc, value) => {
+      const values = creeper(value);
+      if (values.length > 0) acc.push(values);
+      return acc;
+    };
     return function creepAllAsGlobs(pathPattern) {
-      return prokGlob(pathPattern).map(creeper).filter(dropEmpty);
+      return prokGlob(pathPattern).reduce(nonEmptyReducer, []);
     };
   }
 };
